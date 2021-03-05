@@ -13,6 +13,14 @@ let Customer = new Schema({
   },
   address: {
     type: String
+  
+  },
+  to_city: {
+    type: String
+  
+  },
+  from_city: {
+    type: String
   }
 }, {
   collection: 'customer'

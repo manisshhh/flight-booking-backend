@@ -22,6 +22,7 @@ mongoose.connect(mongoDb.db, {
 )
 
 const bookRoute = require('./routes/customer.routes')
+const authRoute = require('./routes/auth.routes')
 
 const app = express();
 app.use(bodyParser.json());
@@ -36,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'dist/angular-mean-crud-tutorial')))
 
 // API root
 app.use('/api', bookRoute)
+app.use('/api', authRoute)
 
 // PORT
 const port = process.env.PORT || 8000;

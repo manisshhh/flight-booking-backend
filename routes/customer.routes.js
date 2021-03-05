@@ -3,10 +3,13 @@ const app = express();
 
 const customerRoute = express.Router();
 let Customer = require('../models/customer.model');
+let Airports = require('../models/airports.model');
+let Flights = require('../models/flight-schedule.model');
 
 // Add Customer
 customerRoute.route('/add-customer').post((req, res, next) => {
-  Customer.create(req.body, (error, data) => {
+  let setData = {id:req.body.id,gender:req.body.gender,name:req.body.name,address:req.body.address,to_city:req.body.to_city,from_city:req.body.from_city}
+  Customer.create(setData, (error, data) => {
     if (error) {
       console.log(error)
       // return next(error)
@@ -66,6 +69,31 @@ customerRoute.route('/delete-customer/:id').delete((req, res, next) => {
       })
     }
   })
+})
+
+// Get airports
+
+customerRoute.route('/airports').get((req, res) => {
+  Airports.find((error, data) => {
+    console.log(error)
+    if (error) {
+      res.json(err)
+    } else {
+      res.json(data)
+    }
+  })
+})
+
+customerRoute.route('/flight-search').post(async (req, res) => {
+  let departure = req.body.departure
+  let arrival = req.body.arrival
+  let flights = await Flights.find({
+    departure,
+    arrival
+   });
+   if (flights) {
+    res.json(flights)
+  }
 })
 
 module.exports = customerRoute;
